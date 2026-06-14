@@ -1,0 +1,12 @@
+# UAV Vehicle Detection — Dataset Configuration
+# Classes: bus, car, truck (aerial top-down view)
+
+# Path points to the Roboflow export downloaded by the Colab notebook.
+path: /content/uav-vehicle-detection-1
+
+train: train/images
+val:   valid/images
+test:  test/images
+
+nc: 3
+names: ['bus', 'car', 'truck']

@@ -1,0 +1,103 @@
+# Dataset - all heavy data, host on Google Drive
+aerial dataset/images/
+aerial dataset/Annotations/
+aerial dataset/labels/
+aerial dataset/*.zip
+aerial dataset/valid.zip
+aerial dataset/test.zip
+aerial dataset/train.zip
+aerial dataset.zip
+
+# Roboflow upload cache (6GB+)
+roboflow_upload/
+roboflow_upload.zip
+
+# YOLOv5 source (cloned at runtime in Colab)
+yolov5/
+
+# Model weights
+*.pt
+# ...except the trained model shipped with the repo
+!best.pt
+*.onnx
+*.engine
+*.torchscript
+*.weights
+*.pb
+*.tflite
+*.h5
+
+# Training run artifacts
+runs/
+
+# Images (never commit raw image data)
+*.jpg
+*.jpeg
+*.png
+# ...except the result figures shown in the README
+!training_curves.png
+!inference_samples.png
+!confusion_matrix.png
+!results/*.png
+*.bmp
+*.tiff
+*.tif
+*.webp
+*.gif
+*.heic
+*.heif
+*.raw
+*.dng
+
+# Videos
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.flv
+*.m4v
+
+# Large archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Large data files
+*.csv
+# ...except the training metrics log
+!results/*.csv
+*.json.gz
+*.parquet
+*.pickle
+*.pkl
+*.npy
+*.npz
+*.hdf5
+*.h5
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Environment
+.env
+venv/
+env/
