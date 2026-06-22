@@ -9,9 +9,9 @@ Developed during my summer internship at **DRDO-DEAL** (Defence Research and Dev
 
 ## Problem Statement
 
-Detecting vehicles from UAV/drone footage is harder than ground-level detection:
+Detecting vehicles from UAV/drone footage is harder than ground level detection:
 
-- **Top-down perspective** removes most distinguishing side-profile features
+- **Top down perspective** removes most distinguishing side profile features
 - **High visual similarity** between buses and trucks in plan view
 - **Small object size** — vehicles appear as small as 20×20 pixels at high altitude
 - **No fixed orientation** — vehicles appear at all rotation angles
@@ -26,18 +26,18 @@ Detecting vehicles from UAV/drone footage is harder than ground-level detection:
 | Input size | 640 × 640 px |
 | Classes | bus · car · truck |
 | Parameters | ~7.0 M |
-| Pre-trained on | COCO → fine-tuned on aerial dataset |
+| Pretrained on | COCO → fine tuned on aerial dataset |
 | Training | 100 epochs, batch 16, Tesla T4 GPU |
 
 ### Aerial-specific design choices
 
-I tuned the augmentation hyperparameters (`hyp_uav.yaml`) for the top-down setting,
-since the YOLOv5 defaults assume ground-level imagery:
+I tuned the augmentation hyperparameters (`hyp_uav.yaml`) for the top down setting,
+since the YOLOv5 defaults assume ground level imagery:
 
 | Hyperparameter | Default | This project | Reason |
 |---|---|---|---|
 | Rotation | 0° | ±15° | aerial views have no fixed orientation |
-| Vertical flip | disabled | 0.5 | valid transform from top-down |
+| Vertical flip | disabled | 0.5 | valid transform from top down |
 | Scale | 0.5 | 0.6 | simulate varying drone altitude |
 | Mixup | disabled | 0.1 | better generalisation across scenes |
 
@@ -45,7 +45,7 @@ since the YOLOv5 defaults assume ground-level imagery:
 
 ## Results
 
-Evaluated on the held-out **test set** (857 images, 25,103 instances):
+Evaluated on the held out **test set** (857 images, 25,103 instances):
 
 | Metric | Value |
 |---|---|
@@ -83,7 +83,7 @@ confusion matrix below makes this visible.
 ## Dataset
 
 The dataset consists of drone footage frames from DJI cameras, annotated with
-YOLO-format bounding boxes for 3 vehicle classes (`bus`, `car`, `truck`).
+YOLO format bounding boxes for 3 vehicle classes (`bus`, `car`, `truck`).
 
 | Split | Images |
 |---|---|
@@ -98,14 +98,14 @@ notebook:
 ### Dataset preparation scripts (optional)
 
 These two helpers were used to host the dataset on Roboflow. You only need them
-if you are recreating the dataset from raw images — normal training pulls the
+if you are recreating the dataset from raw images normal training pulls the
 dataset straight from Roboflow via the Colab notebook.
 
 Both expect a local `aerial dataset/` folder with `images/{train,val,test}/` and
 `labels/{train,val,test}/`.
 
-**`make_roboflow_zip.py`** — packs a 2,000-image train subset (full val/test) into
-`roboflow_upload.zip` for drag-and-drop upload in the Roboflow UI:
+**`make_roboflow_zip.py`** — packs a 2,000 image train subset (full val/test) into
+`roboflow_upload.zip` for drag and drop upload in the Roboflow UI:
 
 ```bash
 python3 make_roboflow_zip.py
@@ -179,16 +179,16 @@ python yolov5/detect.py \
 
 ## How the Aerial Challenges Were Handled
 
-**Bus vs. truck confusion:** From a top-down view a loaded truck and a bus have
-near-identical rectangular footprints. Mosaic augmentation co-locates multiple
+**Bus vs. truck confusion:** From a top down view a loaded truck and a bus have
+near identical rectangular footprints. Mosaic augmentation co-locates multiple
 vehicle types in one training sample, helping the model learn the subtle
 structural cues that separate them.
 
 **Rotation invariance:** Aerial vehicles appear at any angle, so I added ±15°
-rotation and 50% vertical-flip augmentation to stop the model overfitting to a
+rotation and 50% vertical flip augmentation to stop the model overfitting to a
 single orientation.
 
-**Small object detection:** YOLOv5's multi-scale detection head (P3/8, P4/16,
+**Small object detection:** YOLOv5's multi scale detection head (P3/8, P4/16,
 P5/32) handles small objects at the finest scale, and mosaic augmentation widens
 the range of object scales seen during training.
 
